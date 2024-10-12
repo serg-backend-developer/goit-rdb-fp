@@ -4,6 +4,6 @@
 # Імпортуйте дані за допомогою Import wizard так, як ви вже робили це у темі 3.
 # Продивіться дані, щоб бути у контексті.
 
-DROP DATABASE IF EXISTS pandemic;
-CREATE DATABASE pandemic;
+CREATE SCHEMA IF NOT EXISTS pandemic;
 USE pandemic;
+SELECT * FROM infectious_cases;
