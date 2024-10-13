@@ -6,8 +6,9 @@
 
 USE pandemic;
 
-SELECT
-    STR_TO_DATE(CONCAT(ic.year, '-01-01'), '%Y-%m-%d') as original_date,
-    CURDATE() as cur_date,
-    TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(ic.year, '-01-01'), '%Y-%m-%d'), CURDATE()) as years_diff
-FROM infectious_cases ic;
+SELECT DISTINCT
+    MAKEDATE(YEAR, 1) as start_date,
+    CURDATE() as curr_date,
+    TIMESTAMPDIFF(YEAR, MAKEDATE(YEAR, 1), CURDATE()) as diff
+FROM infectious_cases
+ORDER BY start_date ASC;
