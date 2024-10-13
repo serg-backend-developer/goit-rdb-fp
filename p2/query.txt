@@ -1,9 +1,9 @@
 # Нормалізуйте таблицю infectious_cases до 3ї нормальної форми.
 # Збережіть у цій же схемі дві таблиці з нормалізованими даними.
 
-CREATE TABLE countries_codes (country_id int auto_increment, Entity VARCHAR(100) NOT NULL, Code VARCHAR(10) NULL, PRIMARY KEY (country_id));
-INSERT INTO countries_codes (Entity, Code)
-SELECT DISTINCT entity, code FROM infectious_cases ON DUPLICATE KEY UPDATE Entity = VALUES(Entity);
+CREATE TABLE countries_codes (country_id int auto_increment, entity VARCHAR(100) NOT NULL, Code VARCHAR(10) NULL, PRIMARY KEY (country_id));
+INSERT INTO countries_codes (entity, Code)
+SELECT DISTINCT entity, code FROM infectious_cases ON DUPLICATE KEY UPDATE entity = VALUES(entity);
 
 CREATE TABLE maladies (malady_id INT AUTO_INCREMENT PRIMARY KEY, malady_name VARCHAR(100) NOT NULL);
 # 1
@@ -25,48 +25,48 @@ INSERT INTO maladies (malady_name) VALUES ('Smallpox');
 # 9
 INSERT INTO maladies (malady_name) VALUES ('Cholera');
 
-CREATE TABLE cases (
+CREATE TABLE malady_cases (
     case_id INT AUTO_INCREMENT PRIMARY KEY,
     country_id INT NOT NULL,
-    Year INT NOT NULL,
+    year INT NOT NULL,
     malady_id INT NOT NULL,
     Number INT NULL,
     FOREIGN KEY (country_id) REFERENCES countries_codes(country_id),
     FOREIGN KEY (malady_id) REFERENCES maladies(malady_id)
 );
 # 1
-INSERT INTO cases (country_id, Year, malady_id, Number)
-SELECT c.country_id AS country_id, ic.Year, 1 AS malady_id, COALESCE(NULLIF(ic.Number_yaws, ''), null)
-FROM infectious_cases ic INNER JOIN countries_codes c ON ic.Entity = c.Entity;
+INSERT INTO malady_cases (country_id, year, malady_id, Number)
+SELECT c.country_id AS country_id, ic.year, 1 AS malady_id, COALESCE(NULLIF(ic.Number_yaws, ''), null)
+FROM infectious_cases ic JOIN countries_codes c ON ic.entity = c.entity;
 # 2
-INSERT INTO cases (country_id, Year, malady_id, Number)
-SELECT c.country_id AS country_id, ic.Year, 2 AS malady_id, COALESCE(NULLIF(ic.polio_cases, ''), null)
-FROM infectious_cases ic INNER JOIN countries_codes c ON ic.Entity = c.Entity;
+INSERT INTO malady_cases (country_id, year, malady_id, Number)
+SELECT c.country_id AS country_id, ic.year, 2 AS malady_id, COALESCE(NULLIF(ic.polio_cases, ''), null)
+FROM infectious_cases ic JOIN countries_codes c ON ic.entity = c.entity;
 # 3
-INSERT INTO cases (country_id, Year, malady_id, Number)
-SELECT c.country_id AS country_id, ic.Year, 3 AS malady_id, COALESCE(NULLIF(ic.cases_guinea_worm, ''), null)
-FROM infectious_cases ic INNER JOIN countries_codes c ON ic.Entity = c.Entity;
+INSERT INTO malady_cases (country_id, year, malady_id, Number)
+SELECT c.country_id AS country_id, ic.year, 3 AS malady_id, COALESCE(NULLIF(ic.cases_guinea_worm, ''), null)
+FROM infectious_cases ic JOIN countries_codes c ON ic.entity = c.entity;
 # 4
-INSERT INTO cases (country_id, Year, malady_id, Number)
-SELECT c.country_id AS country_id, ic.Year, 4 AS malady_id, COALESCE(NULLIF(ic.number_rabies, ''), null)
-FROM infectious_cases ic INNER JOIN countries_codes c ON ic.Entity = c.Entity;
+INSERT INTO malady_cases (country_id, year, malady_id, Number)
+SELECT c.country_id AS country_id, ic.year, 4 AS malady_id, COALESCE(NULLIF(ic.number_rabies, ''), null)
+FROM infectious_cases ic JOIN countries_codes c ON ic.entity = c.entity;
 # 5
-INSERT INTO cases (country_id, Year, malady_id, Number)
-SELECT c.country_id AS country_id, ic.Year, 5 AS malady_id, COALESCE(NULLIF(ic.number_malaria, ''), null)
-FROM infectious_cases ic INNER JOIN countries_codes c ON ic.Entity = c.Entity;
+INSERT INTO malady_cases (country_id, year, malady_id, Number)
+SELECT c.country_id AS country_id, ic.year, 5 AS malady_id, COALESCE(NULLIF(ic.number_malaria, ''), null)
+FROM infectious_cases ic JOIN countries_codes c ON ic.entity = c.entity;
 # 6
-INSERT INTO cases (country_id, Year, malady_id, Number)
-SELECT c.country_id AS country_id, ic.Year, 6 AS malady_id, COALESCE(NULLIF(ic.number_hiv, ''), null)
-FROM infectious_cases ic INNER JOIN countries_codes c ON ic.Entity = c.Entity;
+INSERT INTO malady_cases (country_id, year, malady_id, Number)
+SELECT c.country_id AS country_id, ic.year, 6 AS malady_id, COALESCE(NULLIF(ic.number_hiv, ''), null)
+FROM infectious_cases ic JOIN countries_codes c ON ic.entity = c.entity;
 # 7
-INSERT INTO cases (country_id, Year, malady_id, Number)
-SELECT c.country_id AS country_id, ic.Year, 7 AS malady_id, COALESCE(NULLIF(ic.number_tuberculosis, ''), null)
-FROM infectious_cases ic INNER JOIN countries_codes c ON ic.Entity = c.Entity;
+INSERT INTO malady_cases (country_id, year, malady_id, Number)
+SELECT c.country_id AS country_id, ic.year, 7 AS malady_id, COALESCE(NULLIF(ic.number_tuberculosis, ''), null)
+FROM infectious_cases ic JOIN countries_codes c ON ic.entity = c.entity;
 # 8
-INSERT INTO cases (country_id, Year, malady_id, Number)
-SELECT c.country_id AS country_id, ic.Year, 8 AS malady_id, COALESCE(NULLIF(ic.number_smallpox, ''), null)
-FROM infectious_cases ic INNER JOIN countries_codes c ON ic.Entity = c.Entity;
+INSERT INTO malady_cases (country_id, year, malady_id, Number)
+SELECT c.country_id AS country_id, ic.year, 8 AS malady_id, COALESCE(NULLIF(ic.number_smallpox, ''), null)
+FROM infectious_cases ic JOIN countries_codes c ON ic.entity = c.entity;
 # 9
-INSERT INTO cases (country_id, Year, malady_id, Number)
-SELECT c.country_id AS country_id, ic.Year, 9 AS malady_id, COALESCE(NULLIF(ic.number_cholera_cases, ''), null)
-FROM infectious_cases ic INNER JOIN countries_codes c ON ic.Entity = c.Entity;
+INSERT INTO malady_cases (country_id, year, malady_id, Number)
+SELECT c.country_id AS country_id, ic.year, 9 AS malady_id, COALESCE(NULLIF(ic.number_cholera_cases, ''), null)
+FROM infectious_cases ic JOIN countries_codes c ON ic.entity = c.entity;
