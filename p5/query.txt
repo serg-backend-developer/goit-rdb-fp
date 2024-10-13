@@ -1,0 +1,17 @@
+# Побудуйте власну функцію.
+# Створіть і використайте функцію, що будує такий же атрибут, як і в попередньому завданні:
+# функція має приймати на вхід значення року, а повертати різницю в роках між поточною датою
+# та датою, створеною з атрибута року (1996 рік → '1996-01-01').
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_difference`(year INT) RETURNS int
+    NO SQL
+    DETERMINISTIC
+BEGIN
+    DECLARE start_date DATE;
+    DECLARE diff INT;
+    DECLARE curr_date DATE;
+    SET curr_date = CURDATE();
+    SET start_date = MAKEDATE(year, 1);
+    SET diff = TIMESTAMPDIFF(YEAR, start_date, curr_date);
+    RETURN diff;
+END
